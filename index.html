@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <link rel="manifest" href="manifest.json?v=14">
+  <link rel="manifest" href="manifest.json?v=15">
   <title>Резерв ID</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -15,20 +15,14 @@
       top: 0;
       left: 0;
       width: 100vw;
-      /* height не задаємо — визначається через top + bottom */
+      height: 100lvh;
       object-fit: cover;
       object-position: top center;
     }
   </style>
 </head>
 <body>
-  <img src="image.jpg?v=14" alt="" id="img">
-  <div style="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(255,0,0,0.7);color:#fff;padding:4px 16px;font-size:14px;z-index:9999;border-radius:4px;">v14</div>
-  <script>
-    // gap = різниця між фізичним екраном і viewport
-    // саме ця зона не покривається через black-translucent
-    var gap = window.screen.height - window.innerHeight;
-    document.getElementById('img').style.bottom = '-' + gap + 'px';
-  </script>
+  <img src="image.jpg?v=15" alt="">
+  <div style="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(255,0,0,0.7);color:#fff;padding:4px 16px;font-size:14px;z-index:9999;border-radius:4px;">v15</div>
 </body>
 </html>
