@@ -5,26 +5,29 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <link rel="manifest" href="manifest.json?v=9">
+  <link rel="manifest" href="manifest.json?v=10">
   <title>Резерв ID</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     html, body {
-      background: #000;
+      background: #c8bfaa;
     }
 
     img {
       position: fixed;
-      inset: 0;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: calc(-1 * env(safe-area-inset-bottom, 34px));
       width: 100%;
-      height: 100%;
       object-fit: cover;
+      object-position: top center;
     }
   </style>
 </head>
 <body>
-  <img src="image.jpg?v=9" alt="">
-  <div style="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(255,0,0,0.7);color:#fff;padding:4px 16px;font-size:14px;z-index:9999;border-radius:4px;">v9</div>
+  <img src="image.jpg?v=10" alt="">
+  <div style="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(255,0,0,0.7);color:#fff;padding:4px 16px;font-size:14px;z-index:9999;border-radius:4px;">v10</div>
 </body>
 </html>
