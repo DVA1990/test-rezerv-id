@@ -19,12 +19,12 @@
   </style>
 </head>
 <body>
-  <img src="image.jpg?v=4" alt="" id="img">
-  <div style="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(255,0,0,0.7);color:#fff;padding:4px 16px;font-size:14px;z-index:9999;border-radius:4px;">v5</div>
+  <img src="image.jpg?v=6" alt="" id="img">
+  <div style="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(255,0,0,0.7);color:#fff;padding:4px 16px;font-size:14px;z-index:9999;border-radius:4px;">v6</div>
   <script>
     function fit() {
       var img = document.getElementById('img');
-      img.style.height = window.innerHeight + 'px';
+      img.style.height = window.screen.height + 'px';
     }
     fit();
     window.addEventListener('resize', fit);
