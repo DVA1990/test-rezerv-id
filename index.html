@@ -1,32 +1,415 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <link rel="manifest" href="manifest.json?v=18">
-  <title>Резерв ID</title>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+    />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="apple-mobile-web-app-title" content="Резерв ID" />
+    <meta name="theme-color" content="#dedad0" />
+    <link rel="manifest" href="manifest.json" />
+    <link rel="apple-touch-icon" href="icons/icon-152x152.png" />
+    <title>Резерв ID</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        -webkit-tap-highlight-color: transparent;
+      }
+      :root {
+        --ticker-bg: #5c4218;
+        --ticker-txt: #e9e9e9;
+        --page-bg: #dedad0;
+        --font:
+          -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue",
+          Arial, sans-serif;
+        --safe-top: env(safe-area-inset-top, 0px);
+        --safe-bot: env(safe-area-inset-bottom, 0px);
+      }
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background: var(--page-bg);
+        font-family: var(--font);
+      }
 
-    html, body {
-      /* Колір фону = колір верху картинки, заповнює зону статус бару */
-      background: #e0dfcb;
-    }
+      .app {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        padding-top: var(--safe-top);
+      }
 
-    img {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      object-fit: fill; /* картинка точного розміру — масштабування не потрібне */
-    }
-  </style>
-</head>
-<body>
-  <img src="image.jpg?v=18" alt="">
-  <div style="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(255,0,0,0.7);color:#fff;padding:4px 16px;font-size:14px;z-index:9999;border-radius:4px;">v18.1</div>
-</body>
+      /* ── ЕКРАНИ ── */
+      .screens {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        overflow: hidden;
+      }
+      .scr {
+        position: absolute;
+        inset: 0;
+        display: none;
+      }
+      .scr.on {
+        display: block;
+      }
+
+      /* ── ЗОБРАЖЕННЯ ── */
+      .bg-img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: top center;
+        display: block;
+        -webkit-user-select: none;
+        user-select: none;
+      }
+
+      /* ── ГОЛОВНА ── */
+      .main-wrap {
+        position: relative;
+        width: 100%;
+        height: 100%;
+      }
+      .main-wrap .bg-img {
+        cursor: pointer;
+      }
+
+      /* ТІКЕР */
+      .ticker-ov {
+        position: absolute;
+        left: 25px;
+        right: 25px;
+        top: 516px;
+        height: 25px;
+        background: var(--ticker-bg);
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        z-index: 5;
+        pointer-events: none;
+      }
+      .ttrack {
+        display: flex;
+        white-space: nowrap;
+        animation: rtl 22s linear infinite;
+      }
+      .ttrack span {
+        color: var(--ticker-txt);
+        font-size: clamp(15px, 2.8vw, 12px);
+        font-weight: 500;
+        letter-spacing: 0.2px;
+      }
+      @keyframes rtl {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(-50%); }
+      }
+
+      /* ── МЕНЮ ЕКРАН ── */
+      .menu-wrap {
+        position: relative;
+        width: 100%;
+        height: 100%;
+      }
+
+      .ticker-edit-btn {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        z-index: 10;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: rgba(28, 28, 26, 0.12);
+        border: 1.5px solid rgba(28, 28, 26, 0.18);
+        color: #1c1c1a;
+        font-size: 20px;
+        font-weight: 300;
+        line-height: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        -webkit-appearance: none;
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4px);
+      }
+      .ticker-edit-btn:active { opacity: 0.6; }
+
+      /* ── ТАБ БАР ── */
+      .tabbar {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 83px;
+        background: transparent;
+        border-top: none;
+        display: flex;
+        align-items: flex-start;
+        z-index: 20;
+        padding-bottom: 0;
+      }
+      .tb {
+        flex: 1;
+        height: 49px;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        -webkit-appearance: none;
+      }
+      .tb-ico, .tb-lbl { display: none; }
+
+      /* ── МОДАЛКА ── */
+      .modal-bg {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 100;
+        display: none;
+        align-items: flex-end;
+        justify-content: center;
+      }
+      .modal-bg.on { display: flex; }
+      .modal-sheet {
+        background: white;
+        border-radius: 22px 22px 0 0;
+        padding: 8px 0 0;
+        width: 100%;
+        max-height: 60vh;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+      .modal-handle {
+        width: 36px;
+        height: 4px;
+        border-radius: 2px;
+        background: #d0cdc6;
+        margin: 0 auto 20px;
+      }
+      .modal-body {
+        padding: 0 20px calc(20px + var(--safe-bot));
+      }
+      .modal-title {
+        font-size: 18px;
+        font-weight: 700;
+        color: #1c1c1a;
+        margin-bottom: 20px;
+      }
+      .field-label {
+        font-size: 13px;
+        color: #706e68;
+        font-weight: 400;
+        margin-bottom: 7px;
+        display: block;
+      }
+      textarea.field-input {
+        width: 100%;
+        font-size: 15px;
+        font-weight: 500;
+        border: 1.5px solid #c8c5be;
+        border-radius: 12px;
+        padding: 12px 14px;
+        background: #f6f4f0;
+        font-family: var(--font);
+        outline: none;
+        color: #1c1c1a;
+        -webkit-appearance: none;
+        resize: none;
+        height: 72px;
+        line-height: 1.4;
+      }
+      textarea.field-input:focus {
+        border-color: #8a8780;
+        background: #fff;
+      }
+      .modal-btns {
+        display: flex;
+        gap: 10px;
+        margin-top: 14px;
+      }
+      .btn-cancel {
+        flex: 1;
+        background: #f0ede4;
+        border: none;
+        border-radius: 14px;
+        padding: 14px;
+        font-size: 16px;
+        font-weight: 500;
+        color: #706e68;
+        cursor: pointer;
+        font-family: var(--font);
+        -webkit-appearance: none;
+      }
+      .btn-cancel:active { opacity: 0.75; }
+      .btn-save {
+        flex: 2;
+        background: #1c1c1a;
+        border: none;
+        border-radius: 14px;
+        padding: 14px;
+        font-size: 16px;
+        font-weight: 600;
+        color: white;
+        cursor: pointer;
+        font-family: var(--font);
+        -webkit-appearance: none;
+      }
+      .btn-save:active { opacity: 0.82; }
+
+      /* ── TOAST ── */
+      .toast {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(28, 28, 26, 0.88);
+        color: white;
+        padding: 12px 24px;
+        border-radius: 12px;
+        font-size: 15px;
+        font-weight: 500;
+        z-index: 200;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.25s;
+      }
+      .toast.on { opacity: 1; }
+    </style>
+  </head>
+  <body>
+    <div class="app">
+      <div class="screens">
+        <!-- ── ГОЛОВНА (Резерв ID) ── -->
+        <div class="scr on" id="sc-main">
+          <div class="main-wrap">
+            <img class="bg-img" src="img/main.PNG" onclick="tapMain()" alt="Резерв ID" />
+            <div class="ticker-ov">
+              <div class="ttrack">
+                <span id="ts1">Документ оновлено о 16:55&nbsp;|&nbsp;24.03.2026&nbsp;&nbsp;•&nbsp;&nbsp;Документ оновлено о 16:55&nbsp;|&nbsp;24.03.2026&nbsp;&nbsp;•&nbsp;&nbsp;Документ оновлено о 16:55&nbsp;|&nbsp;24.03.2026&nbsp;&nbsp;•&nbsp;&nbsp;</span><span id="ts2">Документ оновлено о 16:55&nbsp;|&nbsp;24.03.2026&nbsp;&nbsp;•&nbsp;&nbsp;Документ оновлено о 16:55&nbsp;|&nbsp;24.03.2026&nbsp;&nbsp;•&nbsp;&nbsp;Документ оновлено о 16:55&nbsp;|&nbsp;24.03.2026&nbsp;&nbsp;•&nbsp;&nbsp;</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── QR-КОД ── -->
+        <div class="scr" id="sc-qr">
+          <img class="bg-img" src="img/qr.PNG" onclick="tapQR()" alt="QR-код" />
+        </div>
+
+        <!-- ── СЕРВІСИ ── -->
+        <div class="scr" id="sc-srv">
+          <img class="bg-img" src="img/srv.PNG" alt="Сервіси" />
+        </div>
+
+        <!-- ── ВАКАНСІЇ ── -->
+        <div class="scr" id="sc-vak">
+          <img class="bg-img" src="img/vak.PNG" alt="Вакансії" />
+        </div>
+
+        <!-- ── МЕНЮ ── -->
+        <div class="scr" id="sc-menu">
+          <div class="menu-wrap">
+            <img class="bg-img" src="img/menu.PNG" alt="Меню" />
+            <button class="ticker-edit-btn" onclick="openModal()" title="Редагувати стрічку">+</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── ТАБ БАР ── -->
+      <div class="tabbar">
+        <button class="tb" id="tb-main" onclick="goTab('main', this)"><div class="tb-ico"></div><span class="tb-lbl"></span></button>
+        <button class="tb" id="tb-srv" onclick="goTab('srv', this)"><div class="tb-ico"></div><span class="tb-lbl"></span></button>
+        <button class="tb" id="tb-vak" onclick="goTab('vak', this)"><div class="tb-ico"></div><span class="tb-lbl"></span></button>
+        <button class="tb" id="tb-menu" onclick="goTab('menu', this)"><div class="tb-ico"></div><span class="tb-lbl"></span></button>
+      </div>
+    </div>
+
+    <!-- ── МОДАЛКА ── -->
+    <div class="modal-bg" id="modal" onclick="bgTap(event)">
+      <div class="modal-sheet" onclick="event.stopPropagation()">
+        <div class="modal-handle"></div>
+        <div class="modal-body">
+          <div class="modal-title">Текст рухомої стрічки</div>
+          <label class="field-label">Введіть текст</label>
+          <textarea class="field-input" id="tickerIn">Документ оновлено о 16:55 | 24.03.2026</textarea>
+          <div class="modal-btns">
+            <button class="btn-cancel" onclick="closeModal()">Скасувати</button>
+            <button class="btn-save" onclick="doSave()">Зберегти</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="toast" id="toast">✓ Збережено</div>
+
+    <script>
+      function sv(k, v) { try { localStorage.setItem(k, v); } catch(e) {} }
+      function ld(k, d) { try { return localStorage.getItem(k) || d; } catch(e) { return d; } }
+
+      function goTab(name, el) {
+        document.querySelectorAll(".scr").forEach(s => s.classList.remove("on"));
+        document.querySelectorAll(".tb").forEach(t => t.classList.remove("on"));
+        document.getElementById("sc-" + name).classList.add("on");
+        el.classList.add("on");
+      }
+
+      function tapMain() {
+        document.querySelectorAll(".scr").forEach(s => s.classList.remove("on"));
+        document.getElementById("sc-qr").classList.add("on");
+        document.getElementById("tb-main").classList.add("on");
+      }
+      function tapQR() {
+        document.querySelectorAll(".scr").forEach(s => s.classList.remove("on"));
+        document.getElementById("sc-main").classList.add("on");
+        document.getElementById("tb-main").classList.add("on");
+      }
+
+      function openModal() { document.getElementById("modal").classList.add("on"); }
+      function closeModal() { document.getElementById("modal").classList.remove("on"); }
+      function bgTap(e) { if (e.target === document.getElementById("modal")) closeModal(); }
+
+      function doSave() {
+        const txt = document.getElementById("tickerIn").value.trim();
+        if (txt) {
+          const rep = txt + "  •  " + txt + "  •  " + txt + "  •  ";
+          document.getElementById("ts1").textContent = rep;
+          document.getElementById("ts2").textContent = rep;
+          sv("ticker", txt);
+        }
+        closeModal();
+        const t = document.getElementById("toast");
+        t.classList.add("on");
+        setTimeout(() => t.classList.remove("on"), 2000);
+      }
+
+      (function restore() {
+        const ticker = ld("ticker", "Документ оновлено о 16:55 | 24.03.2026");
+        const rep = ticker + "  •  " + ticker + "  •  " + ticker + "  •  ";
+        document.getElementById("ts1").textContent = rep;
+        document.getElementById("ts2").textContent = rep;
+        document.getElementById("tickerIn").value = ticker;
+      })();
+
+      if ("serviceWorker" in navigator)
+        navigator.serviceWorker.register("./sw.js").catch(() => {});
+    </script>
+  </body>
 </html>
