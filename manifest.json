@@ -1,6 +1,6 @@
 {
-  "name": "Резерв ID",
-  "short_name": "Резерв ID",
+  "name": "Резерв+",
+  "short_name": "Резерв+",
   "description": "Цифровий документ військовозобов'язаного",
   "start_url": "/test-rezerv-id/index.html",
   "scope": "/test-rezerv-id/",
