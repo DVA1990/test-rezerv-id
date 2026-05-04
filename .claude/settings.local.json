@@ -4,7 +4,10 @@
       "mcp__Claude_in_Chrome__browser_batch",
       "mcp__Claude_in_Chrome__tabs_context_mcp",
       "mcp__Claude_in_Chrome__navigate",
-      "mcp__Claude_in_Chrome__javascript_tool"
+      "mcp__Claude_in_Chrome__javascript_tool",
+      "Read(//g/Мій диск/Проєкти/Резерв/**)",
+      "Bash(powershell Expand-Archive -Path \"rezerv-id-pwa-v3.zip\" -DestinationPath \"rezerv-id-pwa-v3\" -Force)",
+      "Bash(powershell Expand-Archive -Path \"G:\\\\Мій диск\\\\Проєкти\\\\Резерв\\\\rezerv-id-pwa-v3.zip\" -DestinationPath \"G:\\\\Мій диск\\\\Проєкти\\\\Резерв\\\\rezerv-id-pwa-v3\" -Force)"
     ]
   }
 }
