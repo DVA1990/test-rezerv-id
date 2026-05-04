@@ -6,8 +6,8 @@
   "scope": "/test-rezerv-id/",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#dedad0",
-  "theme_color": "#dedad0",
+  "background_color": "#e0dfcb",
+  "theme_color": "#e0dfcb",
   "lang": "uk",
   "icons": [
     { "src": "icons/icon-72x72.png",   "sizes": "72x72",   "type": "image/png" },
