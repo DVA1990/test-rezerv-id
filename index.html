@@ -274,6 +274,27 @@
       }
       .btn-save:active { opacity: 0.82; }
 
+      /* ── SPLASH ── */
+      .splash {
+        position: fixed;
+        inset: 0;
+        z-index: 999;
+        background: #000;
+        opacity: 1;
+        transition: opacity 0.4s ease;
+      }
+      .splash img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: top center;
+        display: block;
+      }
+      .splash.hide {
+        opacity: 0;
+        pointer-events: none;
+      }
+
       /* ── TOAST ── */
       .toast {
         position: fixed;
@@ -358,6 +379,11 @@
       </div>
     </div>
 
+    <!-- ── SPLASH ── -->
+    <div class="splash" id="splash">
+      <img src="img/start.png" alt="" />
+    </div>
+
     <div class="toast" id="toast">✓ Збережено</div>
 
     <script>
@@ -406,6 +432,15 @@
         document.getElementById("ts1").textContent = rep;
         document.getElementById("ts2").textContent = rep;
         document.getElementById("tickerIn").value = ticker;
+      })();
+
+      // Splash screen
+      (function() {
+        const splash = document.getElementById("splash");
+        setTimeout(() => {
+          splash.classList.add("hide");
+          setTimeout(() => splash.remove(), 400);
+        }, 2000);
       })();
 
       if ("serviceWorker" in navigator)
