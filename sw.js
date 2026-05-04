@@ -1,10 +1,21 @@
-const CACHE = 'rezerv-id-v1';
+const CACHE = 'rezerv-v2';
 const ASSETS = [
-  '/',
-  '/index.html',
-  '/manifest.json',
-  '/icons/icon-192x192.png',
-  '/icons/icon-512x512.png'
+  './index.html',
+  './manifest.json',
+  './img/start.PNG',
+  './img/main.PNG',
+  './img/qr.PNG',
+  './img/srv.PNG',
+  './img/vak.PNG',
+  './img/menu.PNG',
+  './icons/icon-72x72.png',
+  './icons/icon-96x96.png',
+  './icons/icon-128x128.png',
+  './icons/icon-144x144.png',
+  './icons/icon-152x152.png',
+  './icons/icon-192x192.png',
+  './icons/icon-384x384.png',
+  './icons/icon-512x512.png'
 ];
 
 self.addEventListener('install', e => {
@@ -23,6 +34,6 @@ self.addEventListener('activate', e => {
 
 self.addEventListener('fetch', e => {
   e.respondWith(
-    caches.match(e.request).then(cached => cached || fetch(e.request).catch(() => caches.match('/index.html')))
+    caches.match(e.request).then(cached => cached || fetch(e.request).catch(() => caches.match('./index.html')))
   );
 });
